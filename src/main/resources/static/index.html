@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f2f5f4">
+  <title>BehaviorGuard | User risk</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/auth.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#home"><span class="brand-icon"><i></i><i></i><i></i></span><span>behavior<span class="brand-strong">guard</span></span></a>
+    <nav aria-label="Primary navigation"><a class="nav-active" href="#risk">Risk monitor</a><a href="#cases">Cases <span id="case-nav-count">0</span></a><a class="nav-muted" href="#policies">Policies</a></nav>
+    <div class="top-actions"><span class="synthetic-label"><span></span> SYNTHETIC TENANT</span><button id="sign-out" class="user-button" type="button" aria-label="Sign out" title="Sign out">AK</button></div>
+  </header>
+  <main>
+    <section class="intro">
+      <div><p class="kicker">IDENTITY SECURITY <span class="kicker-line"></span> MONITORING</p><h1>Behavior, in context.</h1><p class="intro-copy">Understand what changed, why it matters, and which evidence supports the signal.</p></div>
+      <button id="run-scenario" class="scenario-button"><span class="play-icon">▶</span> Simulate account takeover</button>
+    </section>
+    <section class="overview-strip" aria-label="Risk overview">
+      <div class="overview-item"><span class="over-label">USERS MONITORED</span><strong id="metric-users">—</strong><span class="over-note">in this demo tenant</span></div>
+      <div class="overview-item"><span class="over-label">HIGH RISK</span><strong id="metric-high-risk">—</strong><span class="over-note">score ≥ 70</span></div>
+      <div class="overview-item"><span class="over-label">OPEN CASES</span><strong id="metric-cases">—</strong><span class="over-note">analyst review queue</span></div>
+      <div class="overview-context"><span class="context-mark">↗</span><span>Scores are deterministic. AI does not assign or change risk.</span></div>
+    </section>
+    <section class="dashboard-grid">
+      <article class="surface leaderboard" id="risk">
+        <div class="section-heading"><div><p class="kicker">RISK MONITOR</p><h2>Users by risk</h2></div><span class="updated" id="updated-label">UPDATED JUST NOW</span></div>
+        <div class="user-table-head"><span>IDENTITY</span><span>DEPARTMENT</span><span>RISK SCORE</span><span>LEVEL</span></div>
+        <div id="user-list" class="user-list"><div class="loading">Loading behavioral profiles…</div></div>
+        <div class="table-foot"><span>Risk score reflects currently active factors.</span><span>0–100</span></div>
+      </article>
+      <article class="surface profile" id="profile">
+        <div class="section-heading"><div><p class="kicker">PROFILE DETAIL</p><h2 id="profile-title">Select an identity</h2></div><button id="close-profile" class="icon-button" aria-label="Clear selected profile" title="Clear selected profile">×</button></div>
+        <div id="profile-body" class="profile-body"><div class="profile-empty">Select a user to review their behavior baseline and risk factors.</div></div>
+      </article>
+    </section>
+    <section class="surface cases" id="cases">
+      <div class="section-heading"><div><p class="kicker">INVESTIGATIONS</p><h2>Open cases</h2></div><span class="case-count" id="case-count">0 OPEN</span></div>
+      <div id="case-list" class="case-list"><div class="empty-case">No cases to review. Trigger the demo scenario to see evidence linked to a user risk change.</div></div>
+    </section>
+    <footer><span>BehaviorGuard <span class="footer-dot">·</span> Local demo</span><span>Fictional identities and telemetry only</span></footer>
+  </main>
+  <div id="auth-overlay" class="auth-overlay" hidden>
+    <section class="auth-dialog" role="dialog" aria-modal="true" aria-labelledby="auth-title">
+      <p class="kicker">BEHAVIORGUARD ACCESS</p><h2 id="auth-title">Sign in</h2>
+      <p class="auth-copy">Use an analyst or administrator account to open the risk workspace.</p>
+      <form id="auth-form"><label>Username<input name="username" autocomplete="username" required></label><label>Password<input name="password" type="password" autocomplete="current-password" required></label><button type="submit">Continue</button><p id="auth-error" aria-live="polite"></p></form>
+    </section>
+  </div>
+  <div id="toast" role="status" aria-live="polite"></div>
+  <script src="/app.js" defer></script>
+</body>
+</html>
