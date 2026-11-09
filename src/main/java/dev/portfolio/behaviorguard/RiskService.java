@@ -1,6 +1,7 @@
 package dev.portfolio.behaviorguard;
 
 import java.time.Instant;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.UUID;
 import jakarta.annotation.PostConstruct;
@@ -71,7 +72,7 @@ public class RiskService {
         jdbc.update("INSERT INTO investigation_cases (id, user_id, title, severity, status, created_at) "
                 + "VALUES (?, ?, ?, ?, ?, ?)",
             investigation.id(), investigation.userId(), investigation.title(), investigation.severity(),
-            investigation.status(), investigation.createdAt());
+            investigation.status(), Timestamp.from(investigation.createdAt()));
         for (int index = 0; index < investigation.evidenceEventIds().size(); index++) {
             jdbc.update("INSERT INTO case_evidence (case_id, event_id, position) VALUES (?, ?, ?)",
                 investigation.id(), investigation.evidenceEventIds().get(index), index);
@@ -96,7 +97,7 @@ public class RiskService {
         jdbc.update("INSERT INTO user_risk_profiles (user_id, display_name, department, score, tier, baseline, updated_at) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?)",
             profile.userId(), profile.displayName(), profile.department(), profile.score(), profile.tier(),
-            profile.baseline(), profile.updatedAt());
+            profile.baseline(), Timestamp.from(profile.updatedAt()));
         }
 
         private void updateProfile(UserRisk profile) {
@@ -105,7 +106,7 @@ public class RiskService {
                 + "display_name = EXCLUDED.display_name, department = EXCLUDED.department, score = EXCLUDED.score, "
                 + "tier = EXCLUDED.tier, baseline = EXCLUDED.baseline, updated_at = EXCLUDED.updated_at",
             profile.userId(), profile.displayName(), profile.department(), profile.score(), profile.tier(),
-            profile.baseline(), profile.updatedAt());
+            profile.baseline(), Timestamp.from(profile.updatedAt()));
         jdbc.update("DELETE FROM risk_factors WHERE user_id = ?", profile.userId());
         for (int index = 0; index < profile.factors().size(); index++) {
             RiskFactor factor = profile.factors().get(index);

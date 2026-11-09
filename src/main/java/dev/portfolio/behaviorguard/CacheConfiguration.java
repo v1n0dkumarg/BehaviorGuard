@@ -24,10 +24,10 @@ public class CacheConfiguration {
 		.allowIfSubType("java.time.")
 		.build();
 	ObjectMapper mapper = JsonMapper.builder().addModule(new JavaTimeModule()).build();
-	mapper.activateDefaultTyping(validator, ObjectMapper.DefaultTyping.NON_FINAL, JsonTypeInfo.As.PROPERTY);
+	mapper.activateDefaultTyping(validator, ObjectMapper.DefaultTyping.EVERYTHING, JsonTypeInfo.As.PROPERTY);
 	return RedisCacheConfiguration.defaultCacheConfig()
 		.entryTtl(Duration.ofSeconds(30))
-		.computePrefixWith(cacheName -> "behaviorguard:" + cacheName + ":")
+		.computePrefixWith(cacheName -> "behaviorguard:v3:" + cacheName + ":")
 		.serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(
 			new GenericJackson2JsonRedisSerializer(mapper)))
 		.disableCachingNullValues();

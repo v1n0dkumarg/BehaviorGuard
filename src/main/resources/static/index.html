@@ -10,14 +10,15 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/styles.css">
   <link rel="stylesheet" href="/auth.css">
+  <link rel="stylesheet" href="/workspace.css">
 </head>
 <body>
   <header class="topbar">
     <a class="brand" href="#home"><span class="brand-icon"><i></i><i></i><i></i></span><span>behavior<span class="brand-strong">guard</span></span></a>
-    <nav aria-label="Primary navigation"><a class="nav-active" href="#risk">Risk monitor</a><a href="#cases">Cases <span id="case-nav-count">0</span></a><a class="nav-muted" href="#policies">Policies</a></nav>
+    <nav aria-label="Primary navigation"><a class="nav-active" href="#risk" aria-current="page">Risk monitor</a><a href="#cases">Cases <span id="case-nav-count">0</span></a><a href="#policies">Policies</a></nav>
     <div class="top-actions"><span class="synthetic-label"><span></span> SYNTHETIC TENANT</span><button id="sign-out" class="user-button" type="button" aria-label="Sign out" title="Sign out">AK</button></div>
   </header>
-  <main>
+  <main id="home">
     <section class="intro">
       <div><p class="kicker">IDENTITY SECURITY <span class="kicker-line"></span> MONITORING</p><h1>Behavior, in context.</h1><p class="intro-copy">Understand what changed, why it matters, and which evidence supports the signal.</p></div>
       <button id="run-scenario" class="scenario-button"><span class="play-icon">▶</span> Simulate account takeover</button>
@@ -44,12 +45,38 @@
       <div class="section-heading"><div><p class="kicker">INVESTIGATIONS</p><h2>Open cases</h2></div><span class="case-count" id="case-count">0 OPEN</span></div>
       <div id="case-list" class="case-list"><div class="empty-case">No cases to review. Trigger the demo scenario to see evidence linked to a user risk change.</div></div>
     </section>
+    <section class="surface policies" id="policies" aria-labelledby="policies-title">
+      <div class="section-heading"><div><p class="kicker">SCORING POLICY</p><h2 id="policies-title">How risk is calculated</h2></div><span class="updated">DETERMINISTIC MODEL</span></div>
+      <div class="policy-layout">
+        <div class="policy-column">
+          <p class="policy-copy">The score is the sum of active factor points, capped at 100. Signals are explainable and linked to evidence; AI does not assign or change risk.</p>
+          <div class="policy-label">SCORE BANDS</div>
+          <ul class="policy-list">
+            <li><span>Low</span><strong>0–29</strong></li>
+            <li><span>Guarded</span><strong>30–69</strong></li>
+            <li><span>High</span><strong>70–84</strong></li>
+            <li><span>Critical</span><strong>85–100</strong></li>
+          </ul>
+        </div>
+        <div class="policy-column">
+          <div class="policy-label">SYNTHETIC ACCOUNT-TAKEOVER DEMO WEIGHTS</div>
+          <ul class="policy-list">
+            <li><span>New country</span><strong>+25</strong></li>
+            <li><span>Impossible travel</span><strong>+20</strong></li>
+            <li><span>New device</span><strong>+15</strong></li>
+            <li><span>Unusual hour</span><strong>+12</strong></li>
+            <li><span>Threat-intelligence match</span><strong>+20</strong></li>
+          </ul>
+          <p class="policy-note">These weights belong to the synthetic scenario and are not an organization-wide policy.</p>
+        </div>
+      </div>
+    </section>
     <footer><span>BehaviorGuard <span class="footer-dot">·</span> Local demo</span><span>Fictional identities and telemetry only</span></footer>
   </main>
   <div id="auth-overlay" class="auth-overlay" hidden>
     <section class="auth-dialog" role="dialog" aria-modal="true" aria-labelledby="auth-title">
       <p class="kicker">BEHAVIORGUARD ACCESS</p><h2 id="auth-title">Sign in</h2>
-      <p class="auth-copy">Use an analyst or administrator account to open the risk workspace.</p>
+      <p class="auth-copy">Sign in to open the risk workspace. Analysts and administrators can run the demo scenario.</p>
       <form id="auth-form"><label>Username<input name="username" autocomplete="username" required></label><label>Password<input name="password" type="password" autocomplete="current-password" required></label><button type="submit">Continue</button><p id="auth-error" aria-live="polite"></p></form>
     </section>
   </div>

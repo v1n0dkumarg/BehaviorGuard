@@ -23,6 +23,13 @@ class SecurityIntegrationTest {
     private RiskService service;
 
     @Test
+    void loginPageAndStylesheetsArePublic() throws Exception {
+        mockMvc.perform(get("/")).andExpect(status().isOk());
+        mockMvc.perform(get("/auth.css")).andExpect(status().isOk());
+        mockMvc.perform(get("/workspace.css")).andExpect(status().isOk());
+    }
+
+    @Test
     void viewerCanReadButOnlyAnalystCanRunDemo() throws Exception {
         when(service.leaderboard()).thenReturn(List.of());
 

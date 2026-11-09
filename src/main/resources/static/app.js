@@ -11,6 +11,17 @@ function escapeHtml(value) {
 function showAuth(message = "") {
   document.querySelector("#auth-overlay").hidden = false;
   document.querySelector("#auth-error").textContent = message;
+  requestAnimationFrame(() => document.querySelector('#auth-form [name="username"]').focus());
+}
+
+function syncNavigation() {
+  const activeHash = ["#cases", "#policies"].includes(window.location.hash) ? window.location.hash : "#risk";
+  document.querySelectorAll(".topbar nav a").forEach((link) => {
+    const active = link.hash === activeHash;
+    link.classList.toggle("nav-active", active);
+    if (active) link.setAttribute("aria-current", "page");
+    else link.removeAttribute("aria-current");
+  });
 }
 
 async function request(path, options = {}) {
@@ -108,9 +119,11 @@ document.querySelector("#auth-form").addEventListener("submit", async (event) =>
     form.reset();
     document.querySelector("#auth-overlay").hidden = true;
     await refresh();
-  } catch {
+  } catch (error) {
     sessionStorage.removeItem(authKey);
-    showAuth("Sign-in failed. Check the username and password.");
+    showAuth(error.message === "AUTH_REQUIRED"
+      ? "Sign-in failed. Check the username and password."
+      : "Could not reach the workspace. Check the connection and try again.");
   }
 });
 
@@ -149,4 +162,7 @@ document.querySelector("#run-scenario").addEventListener("click", async (event) 
   }
 });
 
-refresh();
+window.addEventListener("hashchange", syncNavigation);
+syncNavigation();
+if (sessionStorage.getItem(authKey)) refresh();
+else showAuth();
